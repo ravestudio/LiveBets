@@ -6,7 +6,12 @@ namespace EventCollector
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Live Bets");
+
+            Collector collector = new Collector(new CommonLib.WebApiClient());
+            collector.Start();
+
+            Console.ReadKey();
         }
     }
 }
