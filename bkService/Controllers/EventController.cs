@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CommonLib.Objects;
+using Newtonsoft.Json;
 
 namespace bkService.Controllers
 {
@@ -13,19 +14,12 @@ namespace bkService.Controllers
         [HttpGet]
         public IEnumerable<Event> Get()
         {
-            IList<Event> eventList = null;
+            IEnumerable<Event> eventList = null;
 
-            eventList = new List<Event>();
-
-            eventList.Add(new Event()
+            using (var context = new DataAccess.bkContext())
             {
-                eventTitle = "ЦСК - СКА"
-            });
-
-            eventList.Add(new Event()
-            {
-                eventTitle = "Авангард - Динамо"
-            });
+                eventList = context.Events.Select(ev => JsonConvert.DeserializeObject<Event>(ev.jsonData)).ToList();
+            }
 
             return eventList;
         }
@@ -33,6 +27,24 @@ namespace bkService.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] IEnumerable<Event> events)
         {
+
+            using (var context = new DataAccess.bkContext())
+            {
+                IList<DataAccess.Event> eventRange = new List<DataAccess.Event>();
+
+                foreach(Event _event in events)
+                {
+                    DataAccess.Event dbEvent = new DataAccess.Event();
+                    dbEvent.EventId = _event.id;
+                    dbEvent.jsonData = JsonConvert.SerializeObject(_event);
+                    eventRange.Add(dbEvent);
+                }
+
+                context.Events.AddRange(eventRange);
+
+                context.SaveChanges();
+            }
+
             return Ok(1);
         }
     }
