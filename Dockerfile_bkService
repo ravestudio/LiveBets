@@ -24,6 +24,6 @@ RUN dotnet publish "./bkService/bkService.csproj" -c Release -o out
 
 # Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
-WORKDIR /sln
-COPY --from=build-env /sln/out .
+WORKDIR /app
+COPY --from=build-env /out .
 ENTRYPOINT ["dotnet", "bkService.dll"]
