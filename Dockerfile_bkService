@@ -20,7 +20,7 @@ COPY ./CommonLib ./CommonLib
 COPY ./EventCollector ./EventCollector
 COPY ./bkService ./bkService
 
-RUN dotnet publish "./bkService/bkService.csproj" -c Release -o out
+RUN dotnet publish "./bkService/bkService.csproj" -c Release -o /out
 
 # Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
