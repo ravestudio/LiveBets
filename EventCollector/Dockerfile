@@ -1,11 +1,16 @@
 FROM microsoft/dotnet:2.0-sdk
-WORKDIR /app
+WORKDIR /sln
 
-# copy csproj and restore as distinct layers
-COPY *.csproj ./
+# copy solution
+COPY ./*.sln ./
+
+COPY ./CommonLib/CommonLib.csproj ./CommonLib/CommonLib.csproj
+COPY ./EventCollector/EventCollector.csproj ./EventCollector/EventCollector.csproj
 RUN dotnet restore
 
 # copy and build everything else
-COPY . ./
-RUN dotnet publish -c Release -o out
+COPY ./CommonLib ./CommonLib
+COPY ./EventCollector ./EventCollector
+
+RUN dotnet publish "./EventCollector/EventCollector.csproj" -c Release -o out
 ENTRYPOINT ["dotnet", "out/EventCollector.dll"]
