@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CommonLib.Objects;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace bkService.Controllers
 {
@@ -27,20 +28,41 @@ namespace bkService.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] IEnumerable<Event> events)
         {
-
             using (var context = new DataAccess.bkContext())
             {
+                var currentEvents = context.Events.ToList();
+
                 IList<DataAccess.Event> eventRange = new List<DataAccess.Event>();
 
                 foreach(Event _event in events)
                 {
-                    DataAccess.Event dbEvent = new DataAccess.Event();
-                    dbEvent.EventId = _event.id;
-                    dbEvent.jsonData = JsonConvert.SerializeObject(_event);
-                    eventRange.Add(dbEvent);
+                    var curr = currentEvents.SingleOrDefault(c => c.EventId == _event.id);
+
+                    if (curr != null)
+                    {
+                        //update current
+                        curr.jsonData = JsonConvert.SerializeObject(_event);
+                    }
+                    else
+                    {
+                        //create new
+                        DataAccess.Event dbEvent = new DataAccess.Event();
+                        dbEvent.EventId = _event.id;
+                        dbEvent.jsonData = JsonConvert.SerializeObject(_event);
+                        eventRange.Add(dbEvent);
+                    }
                 }
 
                 context.Events.AddRange(eventRange);
+
+                var ids = events.Select(e => e.id);
+                var eventToDelete = currentEvents.Select(c => c.EventId).Except(ids);
+
+                //delete old
+                if (eventToDelete.Count() > 0)
+                {
+                    context.Events.RemoveRange(currentEvents.Where(c => eventToDelete.Contains(c.EventId)));
+                }
 
                 context.SaveChanges();
             }
