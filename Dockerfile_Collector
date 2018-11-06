@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0-sdk
+FROM microsoft/dotnet:sdk
 WORKDIR /sln
 
 # copy solution
@@ -6,11 +6,13 @@ COPY *.sln ./
 
 COPY ./CommonLib/CommonLib.csproj ./CommonLib/CommonLib.csproj
 COPY ./EventCollector/EventCollector.csproj ./EventCollector/EventCollector.csproj
+COPY ./bkService/bkService.csproj ./bkService/bkService.csproj
 RUN dotnet restore
 
 # copy and build everything else
 COPY ./CommonLib ./CommonLib
 COPY ./EventCollector ./EventCollector
+COPY ./bkService ./bkService
 
 RUN dotnet publish "./EventCollector/EventCollector.csproj" -c Release -o out
 ENTRYPOINT ["dotnet", "out/EventCollector.dll"]
