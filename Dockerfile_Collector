@@ -2,7 +2,7 @@ FROM microsoft/dotnet:2.0-sdk
 WORKDIR /sln
 
 # copy solution
-COPY ../*.sln ./
+COPY *.sln ./
 
 COPY ./CommonLib/CommonLib.csproj ./CommonLib/CommonLib.csproj
 COPY ./EventCollector/EventCollector.csproj ./EventCollector/EventCollector.csproj
