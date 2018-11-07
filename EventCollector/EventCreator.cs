@@ -18,16 +18,31 @@ namespace EventCollector
             _event.team1 = token["event"]["team1"].ToString();
             _event.team2 = token["event"]["team2"].ToString();
 
-            var outcomes = token["outcomesWinner"]["main"]["outcomes"];
-            _event.outcomesWinner = new List<Outcomes>();
-            _event.outcomesWinner.Add(new Outcomes()
+            Action<string> fill_outcomes = (outcome_name) =>
             {
-                name = "main",
-                win1 = outcomes["_1"] != null ? outcomes["_1"]["value"].ToObject<decimal?>() : null,
-                win2 = outcomes["_2"] != null ? outcomes["_2"]["value"].ToObject<decimal?>() : null,
-                X = outcomes["x"] != null ? outcomes["x"]["value"].ToObject<decimal?>() : null,
+                var outcomes = token["outcomesWinner"][outcome_name]["outcomes"];
 
-            });
+                _event.outcomesWinner.Add(new Outcomes()
+                {
+                    name = outcome_name,
+                    win1 = outcomes["_1"] != null ? outcomes["_1"]["value"].ToObject<decimal?>() : null,
+                    win2 = outcomes["_2"] != null ? outcomes["_2"]["value"].ToObject<decimal?>() : null,
+                    X = outcomes["x"] != null ? outcomes["x"]["value"].ToObject<decimal?>() : null,
+
+                });
+            };
+
+            _event.outcomesWinner = new List<Outcomes>();
+
+            if (token["outcomesWinner"]["ot"] != null)
+            {
+                fill_outcomes("ot");
+            }
+
+            if (token["outcomesWinner"]["main"] != null)
+            {
+                fill_outcomes("main");
+            }
 
             var scores = token["scores"]["total"];
             _event.scores = new List<Scores>();

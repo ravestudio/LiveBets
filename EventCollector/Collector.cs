@@ -5,6 +5,7 @@ using CommonLib;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 namespace EventCollector
 {
@@ -22,52 +23,70 @@ namespace EventCollector
 
             string body = "{\"limit\": 40,\"ns\":\"live\",\"widgetLmt\":false,\"widgetVideo\":false,\"sportIds\":[31,33]}";
 
-            //body = body.Replace("\"", "\"\"");
+            System.Timers.Timer timer = new System.Timers.Timer(1000);
 
-            HttpContent content = new System.Net.Http.StringContent(body, Encoding.UTF8, "application/json");
-            var t = this.webApiClient.PostData("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
-
-            string json = t.Result;
-
-            JObject o = JObject.Parse(json);
-
-            var result = o["result"];
-
-            foreach (var _sport in result)
+            while(true)
             {
-                foreach (var _event in _sport["events"])
+
+                HttpContent content = new System.Net.Http.StringContent(body, Encoding.UTF8, "application/json");
+                var t = this.webApiClient.PostData("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
+
+                IList<CommonLib.Objects.Event> resultEvents = new List<CommonLib.Objects.Event>();
+
+                Console.Clear();
+
+                string json = t.Result;
+
+                JObject o = JObject.Parse(json);
+
+                var result = o["result"];
+
+                foreach (var _sport in result)
                 {
-                    var w = _event["outcomesWinner"];
-
-
-                    var status = _event["event"]["status"];
-                    var status2 = _event["status"];
-
-                    if (w.HasValues && status.ToObject<string>() != "not_started")
+                    foreach (var _event in _sport["events"])
                     {
-                        //Console.WriteLine(_event);
+                        var w = _event["outcomesWinner"];
 
-                        string strevent = _event.ToString();
 
-                        var scores = _event["scores"]["total"];
+                        var status = _event["event"]["status"];
+                        var status2 = _event["status"];
 
-                        Console.WriteLine("Event Id: {0}", _event["id"]);
+                        if (w.HasValues && status.ToObject<string>() != "not_started")
+                        {
+                            var objEvent = eventCreator.CreateEvent(_event);
 
-                        Console.WriteLine("{0}: {1} {2}", _event["event"]["eventTitle"], scores["ScoreTeam1"], scores["ScoreTeam2"]);
-                        //Console.WriteLine(_event["event"]);
-                        //Console.WriteLine("{0}", _event["outcomesWinner"]);
+                            resultEvents.Add(objEvent);
 
-                        Console.WriteLine("matchTime: {0}", _event["event"]["matchTime"]);
+                            //Console.WriteLine(_event);
 
-                        var outcomes = _event["outcomesWinner"]["main"]["outcomes"];
-                        Console.WriteLine("win1:{0} X:{1} win2:{2}", outcomes["_1"] != null ? outcomes["_1"]["value"] : "-", outcomes["x"] != null ? outcomes["x"]["value"] : "-", outcomes["_2"] != null ? outcomes["_2"]["value"] : "-");
+                            string strevent = _event.ToString();
 
-                        Console.WriteLine();
+                            var scores = _event["scores"]["total"];
 
-                        eventCreator.CreateEvent(_event);
+                            Console.WriteLine("Event Id: {0}", objEvent.id);
+
+                            Console.WriteLine("{0}: {1} {2}", objEvent.eventTitle, objEvent.team1, objEvent.team2);
+
+
+                            Console.WriteLine("matchTime: {0}", objEvent.matchTime);
+
+                            Console.WriteLine();
+
+                            
+                        }
+
                     }
-
                 }
+
+                string resBody = JsonConvert.SerializeObject(resultEvents);
+
+                HttpContent resContent = new System.Net.Http.StringContent(resBody, Encoding.UTF8, "application/json");
+
+                var sendTask = this.webApiClient.PostData("http://bk.xplatform.net/api/event", resContent);
+
+                var resp = sendTask.Result;
+
+                Task.Delay(60*1000).Wait();
             }
         }
     }
