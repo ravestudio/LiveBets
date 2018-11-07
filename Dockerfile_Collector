@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:sdk
+FROM microsoft/dotnet:sdk AS build-env
 WORKDIR /sln
 
 # copy solution
@@ -15,4 +15,8 @@ COPY ./EventCollector ./EventCollector
 COPY ./bkService ./bkService
 
 RUN dotnet publish "./EventCollector/EventCollector.csproj" -c Release -o /out
-ENTRYPOINT ["dotnet", "out/EventCollector.dll"]
+
+FROM microsoft/dotnet:runtime
+WORKDIR /app
+COPY --from=build-env /out .
+ENTRYPOINT ["dotnet", "EventCollector.dll"]
