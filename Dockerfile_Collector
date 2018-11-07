@@ -14,5 +14,5 @@ COPY ./CommonLib ./CommonLib
 COPY ./EventCollector ./EventCollector
 COPY ./bkService ./bkService
 
-RUN dotnet publish "./EventCollector/EventCollector.csproj" -c Release -o out
+RUN dotnet publish "./EventCollector/EventCollector.csproj" -c Release -o /out
 ENTRYPOINT ["dotnet", "out/EventCollector.dll"]
