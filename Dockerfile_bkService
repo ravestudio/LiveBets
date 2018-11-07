@@ -22,6 +22,8 @@ COPY ./bkService ./bkService
 
 RUN dotnet publish "./bkService/bkService.csproj" -c Release -o /out
 
+COPY ./bkService/bkService.db /out
+
 # Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
