@@ -38,6 +38,8 @@ namespace CommonLib
 
             Task <System.Net.Http.HttpResponseMessage> response = httpClient.PostAsync(uri, body);
 
+            Console.WriteLine("begin request");
+            
             response.ContinueWith(r =>
             {
                 var t = r.Result.Content.ReadAsStringAsync();
@@ -45,6 +47,15 @@ namespace CommonLib
                 TCS.SetResult(t.Result);
 
             }, TaskContinuationOptions.OnlyOnRanToCompletion);
+            
+            response.ContinueWith(r =>
+            {
+                Console.WriteLine(r.Exception.ToString());
+
+                TCS.SetResult(string.Empty);
+
+                var ex = r.Exception;
+            }, TaskContinuationOptions.OnlyOnFaulted);
 
             return TCS.Task;
         }
