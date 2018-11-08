@@ -27,13 +27,15 @@ namespace EventCollector
 
             while(true)
             {
+                
+                Console.WriteLine("begin iteration");
 
                 HttpContent content = new System.Net.Http.StringContent(body, Encoding.UTF8, "application/json");
                 var t = this.webApiClient.PostData("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
 
                 IList<CommonLib.Objects.Event> resultEvents = new List<CommonLib.Objects.Event>();
 
-                Console.Clear();
+                //Console.Clear();
 
                 string json = t.Result;
 
