@@ -48,8 +48,11 @@ namespace CommonLib
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+            httpClient.Timeout = new TimeSpan(0, 0, 10);
+
             Task <System.Net.Http.HttpResponseMessage> response = httpClient.PostAsync(uri, body);
 
+           
             Console.WriteLine("begin request");
             
             response.ContinueWith(r =>
