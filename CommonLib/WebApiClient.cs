@@ -56,6 +56,8 @@ namespace CommonLib
             {
                 var t = r.Result.Content.ReadAsStringAsync();
 
+                Console.WriteLine(r.Result.StatusCode);
+
                 TCS.SetResult(t.Result);
 
             }, TaskContinuationOptions.OnlyOnRanToCompletion);

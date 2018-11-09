@@ -32,14 +32,14 @@ namespace EventCollector
 
                 HttpContent content = new System.Net.Http.StringContent(body, Encoding.UTF8, "application/json");
 
-                try
+                /* try
                 {
                     this.webApiClient.PostData_t("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
                 }
                 catch(Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
-                }
+                }*/
 
                 var t = this.webApiClient.PostData("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
 
@@ -90,13 +90,13 @@ namespace EventCollector
                     }
                 }
 
-                string resBody = JsonConvert.SerializeObject(resultEvents);
+                /* string resBody = JsonConvert.SerializeObject(resultEvents);
 
                 HttpContent resContent = new System.Net.Http.StringContent(resBody, Encoding.UTF8, "application/json");
 
                 var sendTask = this.webApiClient.PostData("http://bk.xplatform.net/api/event", resContent);
 
-                var resp = sendTask.Result;
+                var resp = sendTask.Result;*/
 
                 Task.Delay(60*1000).Wait();
             }
