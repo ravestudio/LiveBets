@@ -27,6 +27,18 @@ namespace CommonLib
             return TCS.Task;
         }
 
+        public async void PostData_t(string url, HttpContent body)
+        {
+            var uri = new Uri(url);
+            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
+
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            System.Net.Http.HttpResponseMessage response = await httpClient.PostAsync(uri, body);
+
+            Console.WriteLine(response.StatusCode);
+        }
+
         public Task<string> PostData(string url, HttpContent body)
         {
             TaskCompletionSource<string> TCS = new TaskCompletionSource<string>();

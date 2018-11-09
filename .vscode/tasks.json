@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/bkService/bkService.csproj"
+                "${workspaceFolder}/EventCollector/EventCollector.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
