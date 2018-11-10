@@ -20,9 +20,17 @@ namespace CommonLib
 
             response.ContinueWith(r =>
             {
+                Console.WriteLine(response.Result.StatusCode);
                 string msg = r.Result.Content.ReadAsStringAsync().Result;
                 TCS.SetResult(msg);
             }, TaskContinuationOptions.OnlyOnRanToCompletion);
+
+            response.ContinueWith(r =>
+            {
+                Console.WriteLine(r.Exception.ToString());
+                TCS.SetResult("err");
+
+            }, TaskContinuationOptions.OnlyOnFaulted);
 
             return TCS.Task;
         }

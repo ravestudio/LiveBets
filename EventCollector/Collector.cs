@@ -41,7 +41,7 @@ namespace EventCollector
                     Console.WriteLine(ex.ToString());
                 }*/
 
-                var json = this.webApiClient.PostDataSync("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
+                var json = this.webApiClient.GetData("http://ligastavok.ru");
 
                 IList<CommonLib.Objects.Event> resultEvents = new List<CommonLib.Objects.Event>();
 
