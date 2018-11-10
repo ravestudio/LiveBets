@@ -49,7 +49,7 @@ namespace EventCollector
 
                 //string json = t.Result;
 
-                JObject o = JObject.Parse(json);
+                JObject o = JObject.Parse(json.Result);
 
                 var result = o["result"];
 

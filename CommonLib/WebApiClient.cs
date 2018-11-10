@@ -39,7 +39,7 @@ namespace CommonLib
             Console.WriteLine(response.StatusCode);
         }
 
-        public string PostDataSync(string url, HttpContent body)
+        public async Task<string> PostDataSync(string url, HttpContent body)
         {
             string res = null;
 
@@ -49,7 +49,7 @@ namespace CommonLib
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             Console.WriteLine("begin request");
-            System.Net.Http.HttpResponseMessage response = httpClient.PostAsync(uri, body).Result;
+            System.Net.Http.HttpResponseMessage response = await httpClient.PostAsync(uri, body).ConfigureAwait(false);
             Console.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
