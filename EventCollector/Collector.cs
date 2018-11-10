@@ -41,7 +41,9 @@ namespace EventCollector
                     Console.WriteLine(ex.ToString());
                 }*/
 
-                var json = this.webApiClient.GetData("http://ligastavok.ru");
+                var json = this.webApiClient.GetData("http://dom.ru");
+
+                Console.WriteLine(json.Result);
 
                 IList<CommonLib.Objects.Event> resultEvents = new List<CommonLib.Objects.Event>();
 
