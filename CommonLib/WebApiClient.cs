@@ -39,6 +39,27 @@ namespace CommonLib
             Console.WriteLine(response.StatusCode);
         }
 
+        public string PostDataSync(string url, HttpContent body)
+        {
+            string res = null;
+
+            var uri = new Uri(url);
+            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
+
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            Console.WriteLine("begin request");
+            System.Net.Http.HttpResponseMessage response = httpClient.PostAsync(uri, body).Result;
+            Console.WriteLine(response.StatusCode);
+            if (response.IsSuccessStatusCode)
+            {
+                res = response.Content.ReadAsStringAsync().Result;
+            }
+
+            return res;
+
+        }
+
         public Task<string> PostData(string url, HttpContent body)
         {
             TaskCompletionSource<string> TCS = new TaskCompletionSource<string>();
@@ -47,8 +68,6 @@ namespace CommonLib
             System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            httpClient.Timeout = new TimeSpan(0, 0, 10);
 
             Task <System.Net.Http.HttpResponseMessage> response = httpClient.PostAsync(uri, body);
 

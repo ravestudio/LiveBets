@@ -41,13 +41,13 @@ namespace EventCollector
                     Console.WriteLine(ex.ToString());
                 }*/
 
-                var t = this.webApiClient.PostData("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
+                var json = this.webApiClient.PostDataSync("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
 
                 IList<CommonLib.Objects.Event> resultEvents = new List<CommonLib.Objects.Event>();
 
                 //Console.Clear();
 
-                string json = t.Result;
+                //string json = t.Result;
 
                 JObject o = JObject.Parse(json);
 
