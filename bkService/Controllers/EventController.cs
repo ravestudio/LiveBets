@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CommonLib.Objects;
+using CommonLib.Analyzer;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +35,7 @@ namespace bkService.Controllers
 
                 IList<DataAccess.Event> eventRange = new List<DataAccess.Event>();
 
-                foreach(Event _event in events)
+                foreach (Event _event in events)
                 {
                     var curr = currentEvents.SingleOrDefault(c => c.EventId == _event.id);
 
@@ -49,6 +50,7 @@ namespace bkService.Controllers
                         DataAccess.Event dbEvent = new DataAccess.Event();
                         dbEvent.EventId = _event.id;
                         dbEvent.jsonData = JsonConvert.SerializeObject(_event);
+                        dbEvent.HasMessage = false;
                         eventRange.Add(dbEvent);
                     }
                 }
@@ -65,6 +67,50 @@ namespace bkService.Controllers
                 }
 
                 context.SaveChanges();
+            }
+
+            using (var context = new DataAccess.bkContext())
+            {
+                //make messages
+                var eventsToAnalys = context.Events.Where(e => e.HasMessage == false).ToList();
+
+                DrawFootballStrategy drawFootball = new DrawFootballStrategy();
+
+                IList<DataAccess.Event> toSend = new List<DataAccess.Event>();
+
+                foreach (var ev in eventsToAnalys)
+                {
+
+                    var obj = JsonConvert.DeserializeObject<Event>(ev.jsonData);
+
+                    if (obj.gameId == 33 && drawFootball.Check(obj))
+                    {
+                        toSend.Add(ev);
+                    }
+                }
+
+                if (toSend.Count >0)
+                {
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    foreach(var ev in toSend)
+                    {
+                        var obj = JsonConvert.DeserializeObject<Event>(ev.jsonData);
+                        sb.AppendLine(obj.eventTitle);
+                        sb.AppendLine("Bet to Draw");
+                        sb.AppendLine();
+
+                        ev.HasMessage = true;
+                    }
+
+                    context.Messages.Add(new DataAccess.Message()
+                    {
+                        MessageBody = sb.ToString(),
+                        Sent = false
+                    });
+
+                    context.SaveChanges();
+                }
+
             }
 
             return Ok(1);

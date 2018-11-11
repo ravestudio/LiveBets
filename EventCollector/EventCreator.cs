@@ -12,6 +12,7 @@ namespace EventCollector
         {
             Event _event = new Event();
             _event.id = token["id"].ToObject<int>();
+            _event.gameId = token["gameId"].ToObject<int>();
             _event.eventTitle = token["event"]["eventTitle"].ToString();
             _event.status = token["event"]["status"].ToString();
             _event.matchTime = token["event"]["matchTime"].ToString();

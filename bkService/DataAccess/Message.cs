@@ -5,14 +5,12 @@ using System.Threading.Tasks;
 
 namespace bkService.DataAccess
 {
-    public class Event
+    public class Message
     {
         public int Id { get; set; }
 
-        public int EventId { get; set; }
+        public string MessageBody { get; set; }
 
-        public string jsonData { get; set; }
-
-        public bool HasMessage { get; set; }
+        public bool Sent { get; set; } 
     }
 }

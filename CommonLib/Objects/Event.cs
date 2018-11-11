@@ -7,6 +7,7 @@ namespace CommonLib.Objects
     public class Event
     {
         public int id { get; set; }
+        public int gameId { get; set; }
         public string eventTitle { get; set; }
         public string status { get; set; }
         public string team1 { get; set; }
