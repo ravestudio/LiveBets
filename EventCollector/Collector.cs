@@ -27,31 +27,14 @@ namespace EventCollector
 
             while(true)
             {
-                
-                Console.WriteLine("begin iteration");
-
+               
                 HttpContent content = new System.Net.Http.StringContent(body, Encoding.UTF8, "application/json");
 
-                /* try
-                {
-                    this.webApiClient.PostData_t("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }*/
-
-                var json = this.webApiClient.GetData("http://dom.ru");
-
-                Console.WriteLine(json.Result);
+                var t = this.webApiClient.PostDataAsync("https://mow1-lds-api.ligastavok.ru/rest/events/v1/grouping", content);
 
                 IList<CommonLib.Objects.Event> resultEvents = new List<CommonLib.Objects.Event>();
 
-                //Console.Clear();
-
-                //string json = t.Result;
-
-                JObject o = JObject.Parse(json.Result);
+                JObject o = JObject.Parse(t.Result);
 
                 var result = o["result"];
 
@@ -61,44 +44,26 @@ namespace EventCollector
                     {
                         var w = _event["outcomesWinner"];
 
-
                         var status = _event["event"]["status"];
-                        var status2 = _event["status"];
 
                         if (w.HasValues && status.ToObject<string>() != "not_started")
                         {
                             var objEvent = eventCreator.CreateEvent(_event);
 
                             resultEvents.Add(objEvent);
-
-                            //Console.WriteLine(_event);
-
-                            string strevent = _event.ToString();
-
-                            var scores = _event["scores"]["total"];
-
-                            Console.WriteLine("Event Id: {0}", objEvent.id);
-
-                            Console.WriteLine("{0}: {1} {2}", objEvent.eventTitle, objEvent.team1, objEvent.team2);
-
-
-                            Console.WriteLine("matchTime: {0}", objEvent.matchTime);
-
-                            Console.WriteLine();
-
-                            
+                          
                         }
 
                     }
                 }
 
-                /* string resBody = JsonConvert.SerializeObject(resultEvents);
+                string resBody = JsonConvert.SerializeObject(resultEvents);
 
                 HttpContent resContent = new System.Net.Http.StringContent(resBody, Encoding.UTF8, "application/json");
 
-                var sendTask = this.webApiClient.PostData("http://bk.xplatform.net/api/event", resContent);
+                var sendTask = this.webApiClient.PostDataAsync("http://bk.xplatform.net/api/event", resContent);
 
-                var resp = sendTask.Result;*/
+                sendTask.Wait();
 
                 Task.Delay(60*1000).Wait();
             }

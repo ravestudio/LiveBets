@@ -35,8 +35,10 @@ namespace CommonLib
             return TCS.Task;
         }
 
-        public async void PostData_t(string url, HttpContent body)
+        public async Task<string> PostDataAsync(string url, HttpContent body)
         {
+            string responseBody = null;
+
             var uri = new Uri(url);
             System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
 
@@ -44,64 +46,13 @@ namespace CommonLib
 
             System.Net.Http.HttpResponseMessage response = await httpClient.PostAsync(uri, body);
 
-            Console.WriteLine(response.StatusCode);
-        }
 
-        public async Task<string> PostDataSync(string url, HttpContent body)
-        {
-            string res = null;
-
-            var uri = new Uri(url);
-            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            Console.WriteLine("begin request");
-            System.Net.Http.HttpResponseMessage response = await httpClient.PostAsync(uri, body).ConfigureAwait(false);
-            Console.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
-                res = response.Content.ReadAsStringAsync().Result;
+                responseBody = response.Content.ReadAsStringAsync().Result;
             }
 
-            return res;
-
-        }
-
-        public Task<string> PostData(string url, HttpContent body)
-        {
-            TaskCompletionSource<string> TCS = new TaskCompletionSource<string>();
-
-            var uri = new Uri(url);
-            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
-
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            Task <System.Net.Http.HttpResponseMessage> response = httpClient.PostAsync(uri, body);
-
-           
-            Console.WriteLine("begin request");
-            
-            response.ContinueWith(r =>
-            {
-                var t = r.Result.Content.ReadAsStringAsync();
-
-                Console.WriteLine(r.Result.StatusCode);
-
-                TCS.SetResult(t.Result);
-
-            }, TaskContinuationOptions.OnlyOnRanToCompletion);
-            
-            response.ContinueWith(r =>
-            {
-                Console.WriteLine(r.Exception.ToString());
-
-                TCS.SetResult(string.Empty);
-
-                var ex = r.Exception;
-            }, TaskContinuationOptions.OnlyOnFaulted);
-
-            return TCS.Task;
+            return responseBody;
         }
 
         public Task<bool> PutData(string url, List<KeyValuePair<string, string>> data)
