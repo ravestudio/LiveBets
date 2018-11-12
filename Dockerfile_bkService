@@ -12,12 +12,14 @@ COPY *.sln ./
 
 COPY ./CommonLib/CommonLib.csproj ./CommonLib/CommonLib.csproj
 COPY ./EventCollector/EventCollector.csproj ./EventCollector/EventCollector.csproj
+COPY ./Notifier/Notifier.csproj ./Notifier/Notifier.csproj
 COPY ./bkService/bkService.csproj ./bkService/bkService.csproj
 RUN dotnet restore
 
 # copy and build everything else
 COPY ./CommonLib ./CommonLib
 COPY ./EventCollector ./EventCollector
+COPY ./Notifier ./Notifier
 COPY ./bkService ./bkService
 
 RUN dotnet publish "./bkService/bkService.csproj" -c Release -o /out

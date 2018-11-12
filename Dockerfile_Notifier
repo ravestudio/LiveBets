@@ -16,9 +16,9 @@ COPY ./EventCollector ./EventCollector
 COPY ./Notifier ./Notifier
 COPY ./bkService ./bkService
 
-RUN dotnet publish "./EventCollector/EventCollector.csproj" -c Release -o /out
+RUN dotnet publish "./Notifier/Notifier.csproj" -c Release -o /out
 
 FROM microsoft/dotnet:runtime
 WORKDIR /app
 COPY --from=build-env /out .
-ENTRYPOINT ["dotnet", "EventCollector.dll"]
+ENTRYPOINT ["dotnet", "Notifier.dll"]

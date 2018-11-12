@@ -46,13 +46,20 @@ namespace CommonLib
 
             System.Net.Http.HttpResponseMessage response = await httpClient.PostAsync(uri, body);
 
-
             if (response.IsSuccessStatusCode)
             {
                 responseBody = response.Content.ReadAsStringAsync().Result;
             }
 
             return responseBody;
+        }
+
+        public async void DeleteAsync(string url)
+        {
+            var uri = new Uri(url);
+            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
+
+            System.Net.Http.HttpResponseMessage response = await httpClient.DeleteAsync(uri);
         }
 
         public Task<bool> PutData(string url, List<KeyValuePair<string, string>> data)

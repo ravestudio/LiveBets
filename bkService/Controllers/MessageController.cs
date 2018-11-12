@@ -26,5 +26,20 @@ namespace bkService.Controllers
 
             return messageList;
         }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            using (var context = new DataAccess.bkContext())
+            {
+                var msg = context.Messages.SingleOrDefault(m => m.Id == id);
+                if (msg != null)
+                {
+                    context.Remove(msg);
+
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }

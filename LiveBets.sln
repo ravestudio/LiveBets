@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventCollector", "EventCollector\EventCollector.csproj", "{9D531A1C-5C4C-4CAD-B018-16571A33574F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventCollector", "EventCollector\EventCollector.csproj", "{9D531A1C-5C4C-4CAD-B018-16571A33574F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "CommonLib\CommonLib.csproj", "{5A191C53-84B9-4202-8841-8A52E940120A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLib", "CommonLib\CommonLib.csproj", "{5A191C53-84B9-4202-8841-8A52E940120A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bkService", "bkService\bkService.csproj", "{049BEE35-BBA3-4AEF-B610-4658B0977A6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bkService", "bkService\bkService.csproj", "{049BEE35-BBA3-4AEF-B610-4658B0977A6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifier", "Notifier\Notifier.csproj", "{49407656-E657-4DF0-9A31-5A4589DE929F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,9 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9D531A1C-5C4C-4CAD-B018-16571A33574F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -58,5 +57,23 @@ Global
 		{049BEE35-BBA3-4AEF-B610-4658B0977A6D}.Release|x64.Build.0 = Release|Any CPU
 		{049BEE35-BBA3-4AEF-B610-4658B0977A6D}.Release|x86.ActiveCfg = Release|Any CPU
 		{049BEE35-BBA3-4AEF-B610-4658B0977A6D}.Release|x86.Build.0 = Release|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Debug|x64.Build.0 = Debug|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Debug|x86.Build.0 = Debug|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Release|x64.ActiveCfg = Release|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Release|x64.Build.0 = Release|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Release|x86.ActiveCfg = Release|Any CPU
+		{49407656-E657-4DF0-9A31-5A4589DE929F}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D091F79-FF58-4763-8640-E07E2428452C}
 	EndGlobalSection
 EndGlobal
