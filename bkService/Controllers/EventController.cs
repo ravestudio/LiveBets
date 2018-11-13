@@ -75,6 +75,7 @@ namespace bkService.Controllers
                 var eventsToAnalys = context.Events.Where(e => e.HasMessage == false).ToList();
 
                 DrawFootballStrategy drawFootball = new DrawFootballStrategy();
+                DrawHockeyStrategy drawHockey = new DrawHockeyStrategy();
 
                 IList<DataAccess.Event> toSend = new List<DataAccess.Event>();
 
@@ -83,7 +84,14 @@ namespace bkService.Controllers
 
                     var obj = JsonConvert.DeserializeObject<Event>(ev.jsonData);
 
+                    //football
                     if (obj.gameId == 33 && drawFootball.Check(obj))
+                    {
+                        toSend.Add(ev);
+                    }
+
+                    //hockey
+                    if (obj.gameId == 31 && drawHockey.Check(obj))
                     {
                         toSend.Add(ev);
                     }
