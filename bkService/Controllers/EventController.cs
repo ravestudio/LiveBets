@@ -103,6 +103,16 @@ namespace bkService.Controllers
                     foreach(var ev in toSend)
                     {
                         var obj = JsonConvert.DeserializeObject<Event>(ev.jsonData);
+
+                        if (obj.gameId == 31)
+                        {
+                            sb.AppendLine("Hockey");
+                        }
+
+                        if (obj.gameId == 33)
+                        {
+                            sb.AppendLine("Football");
+                        }
                         sb.AppendLine(obj.eventTitle);
                         sb.AppendLine("Bet to Draw");
                         sb.AppendLine();

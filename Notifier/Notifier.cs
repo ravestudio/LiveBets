@@ -25,18 +25,21 @@ namespace Notifier
             {
                 var t = this.webApiClient.GetData("http://bk.xplatform.net/api/message");
 
-                string json = t.Result;
-
-                IEnumerable<Message> messages = JsonConvert.DeserializeObject<IEnumerable<Message>>(json);
-
-                foreach(var msg in messages)
+                if (!string.IsNullOrEmpty(t.Result))
                 {
-                    SendMessage(msg.messageBody);
-                }
+                    string json = t.Result;
 
-                foreach (var msg in messages)
-                {
-                    this.webApiClient.DeleteAsync(string.Format("http://bk.xplatform.net/api/message/{0}", msg.id));
+                    IEnumerable<Message> messages = JsonConvert.DeserializeObject<IEnumerable<Message>>(json);
+
+                    foreach (var msg in messages)
+                    {
+                        SendMessage(msg.messageBody);
+                    }
+
+                    foreach (var msg in messages)
+                    {
+                        this.webApiClient.DeleteAsync(string.Format("http://bk.xplatform.net/api/message/{0}", msg.id));
+                    }
                 }
 
                 Task.Delay(5 * 1000).Wait();

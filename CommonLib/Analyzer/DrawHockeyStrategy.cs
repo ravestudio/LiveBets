@@ -25,7 +25,7 @@ namespace CommonLib.Analyzer
             var outcome_ot = _event.outcomesWinner.SingleOrDefault(o => o.name == "ot");
 
             //с ot не используем, и нужен высокий x
-            if (outcome_ot != null || outcome_main == null || !(outcome_main.X.HasValue && outcome_main.X > 1.10m))
+            if (outcome_ot != null || outcome_main == null || !(outcome_main.X.HasValue && outcome_main.X > 1.50m))
                 res = false;
 
             return res;

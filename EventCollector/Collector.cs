@@ -65,7 +65,7 @@ namespace EventCollector
 
                 sendTask.Wait();
 
-                Task.Delay(60*1000).Wait();
+                Task.Delay(30*1000).Wait();
             }
         }
     }

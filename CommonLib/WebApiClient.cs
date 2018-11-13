@@ -8,31 +8,21 @@ namespace CommonLib
 {
     public class WebApiClient
     {
-        public Task<string> GetData(string url)
+        public async Task<string> GetData(string url)
         {
-            TaskCompletionSource<string> TCS = new TaskCompletionSource<string>();
+            string responseBody = null;
 
             var uri = new Uri(url);
             System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
 
+            System.Net.Http.HttpResponseMessage response = await httpClient.GetAsync(uri);
 
-            Task<System.Net.Http.HttpResponseMessage> response = httpClient.GetAsync(uri);
-
-            response.ContinueWith(r =>
+            if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine(response.Result.StatusCode);
-                string msg = r.Result.Content.ReadAsStringAsync().Result;
-                TCS.SetResult(msg);
-            }, TaskContinuationOptions.OnlyOnRanToCompletion);
+                responseBody = response.Content.ReadAsStringAsync().Result;
+            }
 
-            response.ContinueWith(r =>
-            {
-                Console.WriteLine(r.Exception.ToString());
-                TCS.SetResult("err");
-
-            }, TaskContinuationOptions.OnlyOnFaulted);
-
-            return TCS.Task;
+            return responseBody;
         }
 
         public async Task<string> PostDataAsync(string url, HttpContent body)
