@@ -34,6 +34,9 @@ namespace Notifier
                     foreach (var msg in messages)
                     {
                         SendMessage(msg.messageBody);
+
+                        SendVK(msg.messageBody);
+
                     }
 
                     foreach (var msg in messages)
@@ -62,6 +65,14 @@ namespace Notifier
             mailMessage.Body = body;
             mailMessage.Subject = "live bets online service";
             client.Send(mailMessage);
+        }
+
+        private void SendVK(string body)
+        {
+            string url = string.Format("https://api.vk.com/method/messages.send?message={0}&user_id=156208296&access_token=eddba78f1893ca8be780e1bff2dcc01f2328cb359a5a62c83a4ccc3fb335c3092fbff97b1607a2b947da8&v=5.37", body);
+
+            this.webApiClient.GetData(url).Wait();
+
         }
     }
 }
