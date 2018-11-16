@@ -35,7 +35,7 @@ namespace Notifier
 
                     foreach (var msg in messages)
                     {
-                        SendMessage(msg.messageBody);
+                        //SendMessage(msg.messageBody);
 
                         SendVK(msg.messageBody);
 
