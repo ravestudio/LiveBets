@@ -12,6 +12,9 @@ namespace EventCollector
     public class Collector
     {
         private WebApiClient webApiClient = null;
+
+        private string _apiUrl = "http://127.0.0.1:1255";
+
         public Collector(WebApiClient webApiClient)
         {
             this.webApiClient = webApiClient;
@@ -61,7 +64,7 @@ namespace EventCollector
 
                 HttpContent resContent = new System.Net.Http.StringContent(resBody, Encoding.UTF8, "application/json");
 
-                var sendTask = this.webApiClient.PostDataAsync("http://bk.xplatform.net/api/event", resContent);
+                var sendTask = this.webApiClient.PostDataAsync(string.Format("{0}/api/event", _apiUrl), resContent);
 
                 sendTask.Wait();
 

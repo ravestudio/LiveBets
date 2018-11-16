@@ -14,6 +14,8 @@ namespace Notifier
     {
         private WebApiClient webApiClient = null;
 
+        private string _apiUrl = "http://127.0.0.1:1255";
+
         public Notifier(WebApiClient webApiClient)
         {
             this.webApiClient = webApiClient;
@@ -23,7 +25,7 @@ namespace Notifier
         {
             while (true)
             {
-                var t = this.webApiClient.GetData("http://bk.xplatform.net/api/message");
+                var t = this.webApiClient.GetData(string.Format("{0}/api/message", _apiUrl));
 
                 if (!string.IsNullOrEmpty(t.Result))
                 {
@@ -41,7 +43,7 @@ namespace Notifier
 
                     foreach (var msg in messages)
                     {
-                        this.webApiClient.DeleteAsync(string.Format("http://bk.xplatform.net/api/message/{0}", msg.id));
+                        this.webApiClient.DeleteAsync(string.Format("{0}/api/message/{1}",_apiUrl, msg.id));
                     }
                 }
 
@@ -61,7 +63,6 @@ namespace Notifier
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress("livebets@xplatform.net");
             mailMessage.To.Add(new MailAddress("info@xplatform.net"));
-            mailMessage.To.Add(new MailAddress("admin@worma.ru"));
             mailMessage.Body = body;
             mailMessage.Subject = "live bets online service";
             client.Send(mailMessage);
