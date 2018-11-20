@@ -1,0 +1,9 @@
+<h2>Events</h2>
+
+<div *ngIf="events">
+  <ul>
+    <li *ngFor="let event of events">
+      <span>{{event.eventTitle}}</span>
+    </li>
+  </ul>
+</div>
