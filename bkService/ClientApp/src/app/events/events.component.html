@@ -2,16 +2,26 @@
 
 <div *ngIf="events">
 
-  <div *ngFor="let event of events" style="display:flex;">
+  <div *ngFor="let event of events" style="display:flex; background-color:ghostwhite; margin-bottom:3px;">
 
-    <div style="width:100px;">
+    <div style="width:70px;">
       <div>{{event.SportName}}</div>
     </div>
 
-    <div style="float:left;">
+    <div style="width:200px;">
 
+      <div><span>time:</span><span style="color:#df9829;">{{event.matchTime}}</span></div>
       <div>{{event.eventTitle}}</div>
       <div style="color:#df9829; text-align: center; font-weight: bold;">{{event.score}}</div>
+    </div>
+
+    <div style="width:150px;">
+      <div style="text-align:center;">Outcomes</div>
+      <div style="display:flex;">
+        <span style="display:block; width:50px; text-align:center;">{{event.outcomes.team1}}</span>
+        <span style="display:block; width:50px; text-align:center;">{{event.outcomes.x}}</span>
+        <span style="display:block; width:50px; text-align:center;">{{event.outcomes.team2}}</span>
+      </div>
     </div>
   </div>
 

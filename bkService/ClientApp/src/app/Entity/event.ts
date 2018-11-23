@@ -3,9 +3,12 @@ export class Event {
   gameId: number;
   eventTitle: string;
   status: string;
+  matchTime: string; 
   team1: string;
   team2: string;
   score: string;
+
+  outcomes: Outcomes;
 
   get SportName(): string {
 
@@ -22,4 +25,10 @@ export class Event {
 
     return result;
   }
+}
+
+export class Outcomes {
+  team1: number;
+  team2: number;
+  x: number;
 }
