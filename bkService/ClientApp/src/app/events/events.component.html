@@ -1,9 +1,18 @@
 <h2>Events</h2>
 
 <div *ngIf="events">
-  <ul>
-    <li *ngFor="let event of events">
-      <span>{{event.eventTitle}}</span>
-    </li>
-  </ul>
+
+  <div *ngFor="let event of events" style="display:flex;">
+
+    <div style="width:100px;">
+      <div>{{event.SportName}}</div>
+    </div>
+
+    <div style="float:left;">
+
+      <div>{{event.eventTitle}}</div>
+      <div style="color:#df9829; text-align: center; font-weight: bold;">{{event.score}}</div>
+    </div>
+  </div>
+
 </div>

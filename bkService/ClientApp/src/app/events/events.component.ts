@@ -10,6 +10,8 @@ import { EventService } from '../event.service'
 export class EventsComponent implements OnInit {
   events: Event[];
 
+  
+
   constructor(private eventService: EventService) { }
 
   ngOnInit() {
@@ -17,8 +19,11 @@ export class EventsComponent implements OnInit {
   }
 
   getEvents(): void {
+
     this.eventService.getEvents()
-      .subscribe(events => this.events = events);
+      .subscribe(events => {
+        this.events = events
+      });
   }
 
 }
