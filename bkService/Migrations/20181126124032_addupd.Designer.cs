@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bkService.DataAccess;
 
 namespace bkService.Migrations
 {
     [DbContext(typeof(bkContext))]
-    partial class bkContextModelSnapshot : ModelSnapshot
+    [Migration("20181126124032_addupd")]
+    partial class addupd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

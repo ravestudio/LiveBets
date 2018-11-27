@@ -38,8 +38,9 @@ export class EventService {
 
       var _outcomes = _event.outcomesWinner.filter(o => o.name == "main");
 
+      event.outcomes = new Outcomes();
+
       if (_outcomes != null && _outcomes.length > 0) {
-        event.outcomes = new Outcomes();
 
         event.outcomes.team1 = _outcomes[0].win1;
         event.outcomes.team2 = _outcomes[0].win2;

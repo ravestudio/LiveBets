@@ -10,6 +10,7 @@ namespace bkService.DataAccess
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<updInfo> updInfo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +33,12 @@ namespace bkService.DataAccess
             modelBuilder.Entity<Message>().Property(m => m.MessageBody).HasColumnName("MessageBody");
             modelBuilder.Entity<Message>().Property(m => m.Sent).HasColumnName("Sent").IsRequired();
             modelBuilder.Entity<Message>().ToTable("MessageSet");
+
+            modelBuilder.Entity<updInfo>().HasKey(m => m.Id);
+            modelBuilder.Entity<updInfo>().Property(m => m.Id).HasColumnName("Id");
+            modelBuilder.Entity<updInfo>().Property(m => m.lastUpd).HasColumnName("lastUpd").IsRequired();
+            modelBuilder.Entity<updInfo>().Property(m => m.updDuration).HasColumnName("updDuration").IsRequired();
+            modelBuilder.Entity<updInfo>().ToTable("updInfoSet");
 
             base.OnModelCreating(modelBuilder);
         }
