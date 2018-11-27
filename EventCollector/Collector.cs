@@ -83,7 +83,7 @@ namespace EventCollector
 
                 string updBody = JsonConvert.SerializeObject(updInfo);
                 HttpContent updContent = new System.Net.Http.StringContent(updBody, Encoding.UTF8, "application/json");
-                var updTask = this.webApiClient.PostDataAsync(string.Format("{0}/api/event", _apiUrl), updContent);
+                var updTask = this.webApiClient.PostDataAsync(string.Format("{0}/api/updInfo", _apiUrl), updContent);
 
                 updTask.Wait();
 
